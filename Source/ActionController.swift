@@ -311,10 +311,12 @@ open class ActionController<ActionViewType: UICollectionViewCell, ActionDataType
         self.collectionView.collectionViewLayout.invalidateLayout()
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            self?.setUpContentInsetForHeight(size.height)
-            self?.collectionView.reloadData()
-            if let scale = self?.settings.animation.scale {
-                self?.presentingViewController?.view.transform = CGAffineTransform(scaleX: scale.width, y: scale.height)
+            guard let strongSelf = self else { return }
+
+            strongSelf.setUpContentInsetForHeight(strongSelf.view.frame.height)
+            strongSelf.collectionView.reloadData()
+            if let scale = strongSelf.settings.animation.scale {
+                strongSelf.presentingViewController?.view.transform = CGAffineTransform(scaleX: scale.width, y: scale.height)
             }
         }, completion: nil)
     }
